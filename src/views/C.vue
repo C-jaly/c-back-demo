@@ -10,6 +10,14 @@
 export default {
   name: 'C',
   components: {
+  },
+  beforeRouteEnter(to, from, next) {
+    console.log('C beforeRouteEnter', from);
+    next();
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log('C beforeRouteLeave');
+    next();
   }
 }
 </script>

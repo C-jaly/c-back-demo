@@ -11,6 +11,22 @@ export default {
   name: 'A',
   components: {
   },
+  beforeRouteEnter(to, from, next) {
+    console.log('before enter A', from);
+    if (from.name === 'B' && from.meta.goC) {
+      next((vm) => {
+        console.log(vm.$router, vm.$route)
+        vm.$router.replace({
+          name: 'C',
+        });
+      });
+    } else {
+      next();
+    }
+  },
+  mounted() {
+    console.log('A mounted');
+  },
   methods: {
     pushB() {
       this.$router.push({

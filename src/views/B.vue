@@ -11,11 +11,17 @@ export default {
   name: 'B',
   components: {
   },
+  mounted() {
+    this.$route.meta.goC = false;
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log('B leave');
+    next();
+  },
   methods: {
     replaceC() {
-      this.$router.replace({
-        name: 'C'
-      })
+      this.$route.meta.goC = true;
+      this.$router.go(-1);
     }
   }
 }
