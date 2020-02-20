@@ -13,9 +13,12 @@ export default {
   },
   methods: {
     replaceC() {
-      this.$router.replace({
-        name: 'C'
-      })
+      this.$router.go(-1);
+      setTimeout(() => {
+        this.$router.replace({
+          name: 'C'
+        })
+      }, 80)
     }
   }
 }
