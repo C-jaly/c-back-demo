@@ -9,7 +9,22 @@
 
 export default {
   name: 'C',
-  components: {
+  beforeRouteLeave(to, from, next) {
+    next(false);
+    this.quit();
+  },
+  methods: {
+    async quit() {
+      if (env.isAliMP) {
+        alipay.mpNavigateBackByDelta();
+      } else if (env.isEasyBikeApp) {
+        Native.closeWebView();
+      } else if (env.isWeixinMp) {
+        wechat.navigateBack();
+      } else {
+        window.history.go(-1);
+      }
+    },
   }
 }
 </script>
