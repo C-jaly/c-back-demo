@@ -1,44 +1,53 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <div class="A" @click="pushB">A</div>
+    <div class="A">A</div>
+    <Modal
+      ref="modal"
+      @clickCancel="cancel"
+      @clickConfirm="confirm" />
   </div>
 </template>
 
 <script>
+import Modal from '../components/modal';
 
 export default {
   name: 'A',
   components: {
+    Modal,
   },
-  beforeRouteEnter(to, from, next) {
-    console.log('beforeRouteEnter');
-    if (from.name === 'C') {
-      if (env.isAliMP) {
-        alipay.mpNavigateBackByDelta();
-      } else if (env.isEasyBikeApp) {
-        Native.closeWebView();
-      } else if (env.isWeixinMp) {
-        wechat.navigateBack();
-      } else {
-        window.history.go(-1);
-      }
+  data() {
+    return {
+      allowBack: false
+    }
+  },
+  beforeRouteLeave(to, from, next) {
+    if (!this.allowBack) {
+      to.meta.stop = true;
+      console.log('beforeRouteLeave', to);
+      next(false);
+      this.showModal();
     } else {
       next();
     }
   },
-  beforeRouteLeave(to, from, next) {
-    console.log('beforeRouteLeave');
-    next();
-  },
-  mounted() {
-    console.log("A mounted");
-  },
   methods: {
-    pushB() {
-      this.$router.push({
-        name: 'B'
-      })
+    showModal() {
+      this.$refs.modal.show({
+        title: `确定退出？`,
+        cancelText: '放弃',
+        confirmText: '确定',
+      });
+    },
+    cancel() {
+      // eslint-disable-next-line no-console
+      console.log('再想想');
+    },
+    confirm() {
+      console.log('confirm');
+      this.allowBack = true;
+      this.$router.back();
     }
   }
 }

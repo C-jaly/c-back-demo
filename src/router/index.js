@@ -6,19 +6,15 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    name: 'forward',
+    meta: { stop: false },
+    component: () => import(/* webpackChunkName: "about" */ '../views/forward.vue')
+  },
+  {
+    path: '/A',
     name: 'A',
     component: () => import(/* webpackChunkName: "about" */ '../views/A.vue')
   },
-  {
-    path: '/B',
-    name: 'B',
-    component: () => import(/* webpackChunkName: "about" */ '../views/B.vue')
-  },
-  {
-    path: '/C',
-    name: 'C',
-    component: () => import(/* webpackChunkName: "about" */ '../views/C.vue')
-  }
 ]
 
 const router = new VueRouter({
