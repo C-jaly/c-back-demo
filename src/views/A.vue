@@ -11,6 +11,29 @@ export default {
   name: 'A',
   components: {
   },
+  beforeRouteEnter(to, from, next) {
+    console.log('beforeRouteEnter');
+    if (from.name === 'C') {
+      if (env.isAliMP) {
+        alipay.mpNavigateBackByDelta();
+      } else if (env.isEasyBikeApp) {
+        Native.closeWebView();
+      } else if (env.isWeixinMp) {
+        wechat.navigateBack();
+      } else {
+        window.history.go(-1);
+      }
+    } else {
+      next();
+    }
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log('beforeRouteLeave');
+    next();
+  },
+  mounted() {
+    console.log("A mounted");
+  },
   methods: {
     pushB() {
       this.$router.push({
